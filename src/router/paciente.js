@@ -66,9 +66,24 @@ rotaPaciente.post('/add',async (req, res) => {
             sqlString = `INSERT INTO paciente (id_paciente, nome, data_nascimento) `;
             sqlString += ` VALUES ($3, $1, $2)`
             
+            
             //desafio: pense em como descobrir o maior valor existente na coluna id_paciente ai basta somar + 1 
-            let id = 20; //deixei fixo apenas para teste
-            const result = await pool.query( sqlString, [paciente.nome, paciente.data_nascimento, id] );
+
+            //Pessoal Desafio realizado no codigo abaixo, conforme solicitado:
+
+            // Consulta para obter o maior valor existente na coluna id_paciente
+            const consultaMaxId = await pool.query('SELECT MAX(id_paciente) AS max_id FROM paciente');
+                
+            // Obtendo o maior valor (max_id) e incrementando em 1 para obter o novo ID
+            const maxId = consultaMaxId.rows[0].max_id || 0;
+            const novoId = maxId + 1;
+
+            // Monta o SQL para inserção com o novo ID
+             paciente.sqlString = `INSERT INTO paciente (id_paciente, nome, data_nascimento) VALUES ($1, $2, $3)`;
+                
+            // Executa a consulta com o novo ID
+            const result = await pool.query(sqlString, [novoId, paciente.nome, paciente.data_nascimento]);
+
 
             if (result.rowCount > 0) {
                 res.status(201).json({mensagem: 'Paciente cadastrado com sucesso.'});
