@@ -15,4 +15,4 @@ const showVacinasCount = async() => {
 }
 console.log(pool.options.user);
 console.log(pool.options.database);
-showVacinasCount();
+showVacinasCount()
