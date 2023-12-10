@@ -1,7 +1,7 @@
 const express = require('express');
 
 //importa a conexao com o banco
-const pool = require('../database/db.js');
+const pool = require('../../api.js');
 
 //inicializa o express
 const rotaPaciente = express.Router();

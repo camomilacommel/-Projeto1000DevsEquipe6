@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
+const pool = require('../../api.js');
 
 // Rota para cadastrar uma aplicação de vacina
 router.post('/cadastro', async (req, res) => {
@@ -57,7 +57,7 @@ router.delete('/exclusao/:idPaciente/:idVacina', async (req, res) => {
 
 // Desafio de criar apresentação gráfica dos resultados da vacinação
     //Rota para Gráfico de Barras: Quantidade de Vacinas Aplicadas por Tipo
-    app.get('/grafico-barras', async (req, res) => {
+    router.get('/grafico-barras', async (req, res) => {
       try {
         const result = await pool.query(`
           SELECT V.VACINA, COUNT(*) AS QUANTIDADE
